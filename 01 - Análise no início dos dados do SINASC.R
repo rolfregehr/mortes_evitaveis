@@ -41,16 +41,17 @@ for(i in 1:length(arq_sinasc)){
 
 
 
+
+
 # Avaliação do % de cor raca informado
 sinasc_cor_raca_informado <- sinasc |> 
   mutate(mes = floor_date(DTNASC, unit = 'month'),
-         RACACOR = if_else(is.na(RACACOR), 'NI', RACACOR)) |> 
+         RACACOR = if_else(is.na(RACACOR), 'NI', 'Informado')) |> 
   group_by(mes, RACACOR) |> 
-  summarise(n=n()) |> 
+  summarise(n=sum(n)) |> 
   ungroup() |> 
   pivot_wider(names_from = RACACOR, values_from = n, values_fill = 0) |> 
-  mutate(info_racacor = NI/(`1` +  `2` +  `3` +  `4` +  `5`   + NI +  `0` +  `9`)) |> 
-  select(mes, info_racacor)
+  mutate(info_racacor = NI/(Informado + NI)) 
 
 save(sinasc_cor_raca_informado, file = './rda/sinasc_cor_raca_informado.rda')
 save(sinasc, file = './rda/sinasc_avaliacao_inicial.rda')

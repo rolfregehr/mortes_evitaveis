@@ -16,15 +16,16 @@ load('./rda/ref_corte.rda')
 
 library(tidyverse)
 library(scales)
-ref_corte <- .05
+
 sinasc_cor_raca_informado |> 
   ggplot(aes(x = mes, y = info_racacor))+
   geom_line(color = 'steelblue', size = 2)+
   geom_hline(yintercept = ref_corte)
 
 ```
+
 ```{r echo=FALSE}
-data_min <- format(min(sinasc_cor_raca_informado$mes[which(sinasc_cor_raca_informado$info_racacor < ref_corte)]), "%m/%d/%Y")
+data_min <- format(min(sinasc_cor_raca_informado$mes[which(sinasc_cor_raca_informado$info_racacor < ref_corte)]), "%d/%m/%Y")
 ano_min <- format(min(sinasc_cor_raca_informado$mes[which(sinasc_cor_raca_informado$info_racacor < ref_corte)]), "%Y")
 
 ```
@@ -32,6 +33,7 @@ ano_min <- format(min(sinasc_cor_raca_informado$mes[which(sinasc_cor_raca_inform
 A partir de `r data_min` mais de `r label_percent()(1-ref_corte)` dos dados de cor/raça foram informados. Por esse motivo, o ano de `r ano_min` será usado como base para o estudo e identificação dos grupos.
 
 ## Riscos identificados
+
 ```{r message = FALSE , warning = FALSE, echo = FALSE}
 load('./rda/sinasc_grupos_nascimento.rda')
 
@@ -40,5 +42,15 @@ num_ni <- sum(sinasc_grupos_nascimento$n[which(sinasc_grupos_nascimento$RACACOR=
 
   
 ```
-`r num_grupos_ni`
-`r num_ni`
+
+Número de não informados (RACACOR): `r num_grupos_ni`
+
+Número de não informados (RACACOR): `r num_ni`
+
+Riscos:
+
+-   Os grupos sem informação de raça/cor (que serão excluídos) podem, no futuro, ao serem atendidos na rede de saúde, informar sua raça/cor e contabilizar para outro grupo
+
+-   Alguém identificado com uma determinada raça/cor, ao ser atendido, poderá informar outra, por se reconhecer diferente e impactar a contabilização nos grupos
+
+-   Assume-se a hipótese de que, em média, esses movimentos se darão igualmente nos grupos, redizindo o impacto dessas mudanças.

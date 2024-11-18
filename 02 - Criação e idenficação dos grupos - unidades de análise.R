@@ -1,19 +1,12 @@
-# Cabeçalho 
-rm(list = ls())
-library(read.dbc)
-library(tidyverse)
-library(lubridate)
+source('cabeçalho.r')
 
 
 load('./rda/sinasc_avaliacao_inicial.rda')
 load('./rda/sinasc_cor_raca_informado.rda')
-str(sinasc)
-
-# Recodificando
+load('./rda/ref_corte.rda')
 
 
 
-ref_corte <- .05
 
 ano_ref = year(min(sinasc_cor_raca_informado$mes[which(sinasc_cor_raca_informado$info_racacor < ref_corte)]))
   
@@ -31,8 +24,10 @@ sinasc_grupos_nascimento <- sinasc |>
                              T ~ 'NI')) |> 
   arrange(CODMUNNASC) |> 
   select(-c(SEXO)) |> 
-  mutate(grupo = paste(CODMUNNASC , DTNASC, RACACOR, SEXO_BIOLOGICO, sep = '--'))
+  mutate(grupo = paste(CODMUNNASC , DTNASC, RACACOR, SEXO_BIOLOGICO, sep = '--')) |> 
+  group_by(CODMUNNASC, DTNASC, RACACOR, SEXO_BIOLOGICO, grupo) |> 
+  summarise(n=sum(n)) |> 
+  ungroup()
 
 
 save(sinasc_grupos_nascimento, file = './rda/sinasc_grupos_nascimento.rda')
-save(ref_corte, file = './rda/ref_corte.rda')
