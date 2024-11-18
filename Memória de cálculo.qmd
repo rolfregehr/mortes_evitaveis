@@ -1,0 +1,44 @@
+---
+title: "Memória de cálculo"
+format: html
+---
+
+## Análise das informações de cor/raça
+
+Nos primeiros dados de informação de natalidade não havia informação, praticamente, de cor/raça dos nascidos. Usar os dados desde o início, em 1996 prejudicaria o monitoramento e formação dos grupos de análise. Por isso, a primeira ação foi a de verificar, desde o início (1996), a partir de quando essas informações se estabilizariam, baseado na hipótese que a quase nula informação no início da série se deu por necessidade de implementação das informações nos estabelecimentos de saúde.
+
+Isso foi feito a partir da análise do código '01 - Análise no início dos dados do SINASC.R', chegando-se ao inicio no ano 2000, conforme se vê pelo gráfico abaixo.
+
+```{r message = FALSE , warning = FALSE}
+
+load('./rda/sinasc_cor_raca_informado.rda')
+load('./rda/ref_corte.rda')
+
+library(tidyverse)
+library(scales)
+ref_corte <- .05
+sinasc_cor_raca_informado |> 
+  ggplot(aes(x = mes, y = info_racacor))+
+  geom_line(color = 'steelblue', size = 2)+
+  geom_hline(yintercept = ref_corte)
+
+```
+```{r echo=FALSE}
+data_min <- format(min(sinasc_cor_raca_informado$mes[which(sinasc_cor_raca_informado$info_racacor < ref_corte)]), "%m/%d/%Y")
+ano_min <- format(min(sinasc_cor_raca_informado$mes[which(sinasc_cor_raca_informado$info_racacor < ref_corte)]), "%Y")
+
+```
+
+A partir de `r data_min` mais de `r label_percent()(1-ref_corte)` dos dados de cor/raça foram informados. Por esse motivo, o ano de `r ano_min` será usado como base para o estudo e identificação dos grupos.
+
+## Riscos identificados
+```{r message = FALSE , warning = FALSE, echo = FALSE}
+load('./rda/sinasc_grupos_nascimento.rda')
+
+num_grupos_ni <- length(sinasc_grupos_nascimento$RACACOR[which(sinasc_grupos_nascimento$RACACOR=='NI')])
+num_ni <- sum(sinasc_grupos_nascimento$n[which(sinasc_grupos_nascimento$RACACOR=='NI')])
+
+  
+```
+`r num_grupos_ni`
+`r num_ni`

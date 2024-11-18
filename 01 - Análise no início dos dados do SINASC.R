@@ -52,10 +52,9 @@ sinasc_cor_raca_informado <- sinasc |>
   mutate(info_racacor = NI/(`1` +  `2` +  `3` +  `4` +  `5`   + NI +  `0` +  `9`)) |> 
   select(mes, info_racacor)
 
-sinasc_cor_raca_informado |> 
-  ggplot(aes(x = mes, y = info_racacor))+
-  geom_line()
-
+save(sinasc_cor_raca_informado, file = './rda/sinasc_cor_raca_informado.rda')
 save(sinasc, file = './rda/sinasc_avaliacao_inicial.rda')
+
+
 
 

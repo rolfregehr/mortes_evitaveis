@@ -1,0 +1,11 @@
+# Cabeçalho ####
+library(lubridate)
+library(sf)
+library(tidyverse)
+library(read.dbc)
+library(plotly)
+options(dplyr.show_progress = F)
+options(dplyr.summarise.inform = FALSE)
+options(message=FALSE, warning=FALSE)
+options(encoding = "UTF-8")
+rm(list = ls())
