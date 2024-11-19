@@ -54,3 +54,5 @@ Riscos:
 -   Alguém identificado com uma determinada raça/cor, ao ser atendido, poderá informar outra, por se reconhecer diferente e impactar a contabilização nos grupos
 
 -   Assume-se a hipótese de que, em média, esses movimentos se darão igualmente nos grupos, redizindo o impacto dessas mudanças.
+
+[**Atualização SIASUS em 18/11/2024**]{.underline}

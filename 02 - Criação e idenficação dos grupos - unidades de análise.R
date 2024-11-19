@@ -24,8 +24,8 @@ sinasc_grupos_nascimento <- sinasc |>
                              T ~ 'NI')) |> 
   arrange(CODMUNNASC) |> 
   select(-c(SEXO)) |> 
-  mutate(grupo = paste(CODMUNNASC , DTNASC, RACACOR, SEXO_BIOLOGICO, sep = '--')) |> 
-  group_by(CODMUNNASC, DTNASC, RACACOR, SEXO_BIOLOGICO, grupo) |> 
+  mutate(grupo = paste(DTNASC, RACACOR, SEXO_BIOLOGICO, sep = '--')) |> 
+  group_by(DTNASC, RACACOR, SEXO_BIOLOGICO, grupo) |> 
   summarise(n=sum(n)) |> 
   ungroup()
 
